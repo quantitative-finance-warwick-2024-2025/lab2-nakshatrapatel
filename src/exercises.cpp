@@ -19,16 +19,42 @@ Read single characters from an input stream using the std::cin.get() function.
 */
 void exercise_1()
 {
-    int characters = 0, words = 0, lines = 0;
+    int characters = 0, words = 0, lines = 1;
     char c;
     bool in_word = false;
     bool non_empty = false;
 
     std::cout << "Type some text to analyse, press ctrl+D/ctrl+Z to stop:\n\n";
-
     while (std::cin.get(c))
     {      
-       // Your solution here
+        // Your solution here
+        // std::cout << c;
+        if (c != ' ' && c != '\t' && c!= '\n')
+        {
+            characters++;
+            non_empty = true;
+            if (in_word == false)
+            {
+                words++;
+                in_word = true;
+            }
+        }
+        if (c == '\n')
+        {
+            lines++;
+        }
+        if (c == ' ' || c == '\t' || c == '\n')
+        {
+            in_word = false;
+            
+        }
+        
+    }
+    if (non_empty == false)
+    {
+        characters = 0;
+        lines = 0;
+        words = 0;
     }
 
     std::cout << "\nNumber of characters: " << characters << '\n';
@@ -43,14 +69,50 @@ Make sure the functionality has not changed.
 */
 void exercise_2()
 {
-    int characters = 0, words = 0, lines = 0;
+    int characters = 0, words = 0, lines = 1;
     char c;
     bool in_word = false;
     bool non_empty = false;
 
     std::cout << "Type some text to analyse, press ctrl+D/ctrl+Z to stop:\n\n";
+    
+    do
+    {
+        std::cin.get(c);
 
-    // Your solution here
+        if (c != ' ' && c != '\t' && c!= '\n')
+        {
+            characters++;
+            non_empty = true;
+            if (!in_word)
+            {
+                words++;
+                in_word = true;
+            }
+        }
+        if (c == '\n')
+        {
+            lines++;
+        }
+        if (c == ' ' || c == '\t' || c == '\n')
+        {
+            in_word = false;
+            
+        }
+        if (non_empty == false)
+        {
+            characters = 0;
+            lines = 0;
+            words = 0;
+        }
+        if (std::cin.fail())
+        {
+            break;
+        }
+    } while(true);
+
+
+    
 
     std::cout << "\nNumber of characters: " << characters << '\n';
     std::cout << "Number of words: " << words << '\n';
