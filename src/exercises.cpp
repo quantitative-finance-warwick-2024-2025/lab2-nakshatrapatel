@@ -80,6 +80,11 @@ void exercise_2()
     {
         std::cin.get(c);
 
+        if (std::cin.eof())
+        {
+            break;
+        }
+
         if (c != ' ' && c != '\t' && c!= '\n')
         {
             characters++;
@@ -99,21 +104,14 @@ void exercise_2()
             in_word = false;
             
         }
-        if (non_empty == false)
-        {
-            characters = 0;
-            lines = 0;
-            words = 0;
-        }
-        if (std::cin.fail())
-        {
-            break;
-        }
     } while(true);
 
-
-    
-
+    if (non_empty == false)
+    {
+        characters = 0;
+        lines = 0;
+        words = 0;
+    }
     std::cout << "\nNumber of characters: " << characters << '\n';
     std::cout << "Number of words: " << words << '\n';
     std::cout << "Number of lines: " << lines << '\n';
@@ -126,7 +124,7 @@ Make sure the functionality has not changed.
 */
 void exercise_3()
 {
-    int characters = 0, words = 0, lines = 0;
+    int characters = 0, words = 0, lines = 1;
     char c;
     bool in_word = false;
     bool non_empty = false;
@@ -134,6 +132,36 @@ void exercise_3()
     std::cout << "Type some text to analyse, press ctrl+D/ctrl+Z to stop:\n\n";
 
     // Your solution here
+    while (std::cin.get(c))
+    {
+        switch (c)
+        {
+            case ' ':
+            case '\t':
+                in_word = false;
+                break;
+            case '\n':
+                lines++;
+                in_word = false;
+                break;
+            default:
+                characters++;
+                non_empty = true;
+                if (!in_word)
+                {
+                    words++;
+                    in_word = true;
+                }
+                break;
+        }
+    }
+
+    if (non_empty == false)
+    {
+        characters = 0;
+        lines = 0;
+        words = 0;
+    }
 
     std::cout << "\nNumber of characters: " << characters << '\n';
     std::cout << "Number of words: " << words << '\n';
@@ -163,6 +191,16 @@ void exercise_4(unsigned int number_of_steps, double step_size, double lower_lim
     double fahrenheit = lower_lim;
 
     // Your solution here
+    std::cout << std::fixed << std:: setprecision(1);
+    int steps = 0;
+    while (steps < number_of_steps)
+    {   
+        double c = (fahrenheit-32) * 5/9;
+        std::cout << std::setw(10) << fahrenheit << std::setw(10) << c << '\n';
+        fahrenheit += step_size;
+        steps++;
+
+    }
 }
 
 /*
@@ -173,9 +211,19 @@ Write the same function as in exercise 4, but use a for loop instead of a while 
 */
 void exercise_5(unsigned int number_of_steps, double step_size, double lower_lim)
 {
+    double upper_lim = step_size * (number_of_steps - 1) + lower_lim;
+
     std::cout << std::setw(10) << "Fahrenheit" << std::setw(10) << "Celsius" << '\n';
 
-    // Your solution here
+    double fahrenheit = lower_lim;
+
+    std::cout << std::fixed << std:: setprecision(1);
+    for (int steps = 0; steps < number_of_steps; steps++)
+    {   
+        double c = (fahrenheit-32) * 5/9;
+        std::cout << std::setw(10) << fahrenheit << std::setw(10) << c << '\n';
+        fahrenheit += step_size;
+    }
 }
 
 /*
@@ -211,7 +259,11 @@ void exercise_6()
 
     while (std::cin.get(c) && c != '\n')
     {
-        // Your solution here
+        if (isdigit(c))
+        {
+            int num = c - '0';
+            total += num;
+        }
     }
 
     std::cout << "Sum of the numbers is: " << total << '\n';
